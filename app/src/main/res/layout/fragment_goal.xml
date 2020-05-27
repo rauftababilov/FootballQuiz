@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/bangers"
             android:rotation="20"
-            android:text="Ты выйграл!"
+            android:text="Победа!"
             android:textColor="#C86315"
             android:textSize="60dp"
             app:layout_constraintBottom_toTopOf="@+id/oneMoreTimeButton"
