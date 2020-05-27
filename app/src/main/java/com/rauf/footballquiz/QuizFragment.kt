@@ -111,22 +111,22 @@ class QuizFragment : Fragment() {
                         setQuizItem()
                         binding.invalidateAll()
 
+                    }else {
+
+                        //Go to goalFragment
+                        view.findNavController().navigate(
+                            R.id.action_quizFragment_to_goalFragment
+                        )
                     }
 
                 } else {
 
-                    //Go to goalFragment
+                    //Go to missFragment
                     view.findNavController().navigate(
-                        R.id.action_quizFragment_to_goalFragment
+                        R.id.action_quizFragment_to_missFragment
                     )
-                }
 
-            } else {
-
-                //Go to missFragment
-                view.findNavController().navigate(
-                    R.id.action_quizFragment_to_missFragment
-                )
+            }
             }
         }
 
