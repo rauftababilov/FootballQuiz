@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import com.rauf.footballquiz.databinding.FragmentQuizBinding
 
 /**
@@ -73,7 +74,7 @@ class QuizFragment : Fragment() {
     lateinit var currentQuizItem: QuizItem
     lateinit var answers:  MutableList<String>
     private var quizItemIndex = 0
-    private val numberOfQuestions = 3
+    private val numberOfQuestions = 5
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,13 +89,61 @@ class QuizFragment : Fragment() {
 
         binding.quizFragment = this
 
+        binding.passButton.setOnClickListener {view: View ->
+
+            val selectedCheckBoxId = binding.quizRadioGroup.checkedRadioButtonId
+
+            if (selectedCheckBoxId != -1) {
+
+                var answerIndex = 0
+                when (selectedCheckBoxId) {
+
+                    R.id.firstRadioButton -> answerIndex = 0
+                    R.id.secondRadioButton -> answerIndex = 1
+                    R.id.thirdRadioButton -> answerIndex = 2
+                }
+
+                if (answers[answerIndex] == currentQuizItem.answerList[0]) {
+
+                    quizItemIndex++
+                    if (quizItemIndex < numberOfQuestions) {
+
+                        setQuizItem()
+                        binding.invalidateAll()
+
+                    }
+
+                } else {
+
+                    //Go to goalFragment
+                    view.findNavController().navigate(
+                        R.id.action_quizFragment_to_goalFragment
+                    )
+                }
+
+            } else {
+
+                //Go to missFragment
+                view.findNavController().navigate(
+                    R.id.action_quizFragment_to_missFragment
+                )
+            }
+        }
+
         return binding.root
     }
 
     private fun getRandomQuizItem() {
         quizItems.shuffle()
+        quizItemIndex = 0
+        setQuizItem()
+
+    }
+
+    private fun setQuizItem() {
+
         currentQuizItem = quizItems[quizItemIndex]
-        answers = currentQuizItem.answer.toMutableList()
+        answers = currentQuizItem.answerList.toMutableList()
         answers.shuffle()
     }
 
